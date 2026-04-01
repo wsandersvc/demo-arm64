@@ -12,6 +12,7 @@
 #include <ctime>
 #include <sstream>
 #include <stdexcept>
+#include "verademo_vulns.h"
 
 // Simulated sensitive data
 const char* DATABASE_PASSWORD = "MyS3cr3tP@ssw0rd!";
@@ -286,6 +287,67 @@ int main() {
     std::cout << "  cos(π/4) = " << std::cos(angle) << "\n";
     std::cout << "  sqrt(2) = " << std::sqrt(2.0) << "\n";
     std::cout << "  log(e) = " << std::log(M_E) << "\n";
+    
+    // ========================================================================
+    // VERADEMO VULNERABILITIES (Ported from verademo-java)
+    // ========================================================================
+    
+    std::cout << "\n\n=== VERADEMO VULNERABILITIES ===\n";
+    std::cout << "Testing vulnerabilities ported from verademo-java...\n\n";
+    
+    // CWE-89: SQL Injection - Login (from UserController.java)
+    std::cout << "--- CWE-89: SQL Injection in Login ---\n";
+    bool login_result = UserController::login_vulnerable(username, password);
+    std::cout << "Login result: " << (login_result ? "Success" : "Failed") << "\n";
+    
+    // CWE-89: SQL Injection - Password Hint (from UserController.java)
+    std::cout << "\n--- CWE-89: SQL Injection in Password Hint ---\n";
+    std::string hint = UserController::get_password_hint_vulnerable(username);
+    std::cout << "Password hint: " << hint << "\n";
+    
+    // CWE-89: SQL Injection - User Registration (from UserController.java)
+    std::cout << "\n--- CWE-89: SQL Injection in Registration ---\n";
+    UserController::register_user_vulnerable(username, password, "John Doe", "jdoe");
+    
+    // CWE-89: SQL Injection - User History (from UserController.java)
+    std::cout << "\n--- CWE-89: SQL Injection in User History ---\n";
+    std::vector<std::string> history = UserController::get_user_history_vulnerable(username);
+    
+    // CWE-89 + CWE-564: SQL Injection in ORDER BY (from BlabController.java)
+    std::cout << "\n--- CWE-564: SQL Injection in ORDER BY ---\n";
+    char sort_column[256];
+    std::cout << "Enter sort column (e.g., 'username', 'blab_name'): ";
+    std::cin.getline(sort_column, 256);
+    BlabController::get_blabbers_vulnerable(username, sort_column);
+    
+    // CWE-78: OS Command Injection - Ping (from ToolsController.java)
+    std::cout << "\n--- CWE-78: OS Command Injection (Ping) ---\n";
+    char host_to_ping[256];
+    std::cout << "Enter host to ping: ";
+    std::cin.getline(host_to_ping, 256);
+    std::string ping_result = ToolsController::ping_vulnerable(host_to_ping);
+    std::cout << "Ping result:\n" << ping_result << "\n";
+    
+    // CWE-327: Weak Cryptography - MD5 (from UserController.java)
+    std::cout << "\n--- CWE-327: Weak Cryptography (MD5) ---\n";
+    std::string weak_hash = CryptoUtils::md5_hash_vulnerable(password);
+    std::cout << "MD5 hash of password: " << weak_hash << "\n";
+    
+    // CWE-73: Path Traversal (from UserController.java)
+    std::cout << "\n--- CWE-73: Path Traversal ---\n";
+    char image_filename[256];
+    std::cout << "Enter image filename: ";
+    std::cin.getline(image_filename, 256);
+    std::string file_content = FileController::download_profile_image_vulnerable(image_filename);
+    std::cout << "File access result: " << file_content.substr(0, 100) << "...\n";
+    
+    // CWE-611: XML External Entity (XXE)
+    std::cout << "\n--- CWE-611: XML External Entity (XXE) ---\n";
+    std::string xml_data = "<?xml version=\"1.0\"?><!DOCTYPE foo [<!ENTITY xxe SYSTEM \"file:///etc/passwd\">]><data>&xxe;</data>";
+    std::string xml_result = XMLParser::parse_xml_vulnerable(xml_data);
+    std::cout << "XML parsing result: " << xml_result << "\n";
+    
+    std::cout << "\n=== END VERADEMO VULNERABILITIES ===\n\n";
     
     // VULNERABLE: Log completion with user data
     log_user_action(username, "Application completed successfully");

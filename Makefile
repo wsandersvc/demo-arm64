@@ -33,7 +33,7 @@ PROJECT_DIR = .
 TARGET = $(BUILD_DIR)/arm64_sample
 
 # Source files
-SOURCES = main.cpp utils.cpp
+SOURCES = main.cpp utils.cpp verademo_vulns.cpp
 OBJECTS = $(addprefix $(BUILD_DIR)/,$(SOURCES:.cpp=.o))
 
 # Preprocessed files that will be generated
