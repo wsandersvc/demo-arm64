@@ -7,12 +7,9 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
-#include <numeric>
 #include <fstream>
 #include <cstring>
 #include <ctime>
-
-// Note: ARM NEON intrinsics are Linux-specific and not used in Windows build
 
 // CWE-117: Vulnerable logging function that doesn't sanitize input
 void log_user_action(const char* username, const char* action) {
@@ -53,7 +50,6 @@ void log_authentication_attempt(const char* username, bool success) {
     }
 }
 
-// Compute factorial using simple iteration
 unsigned long long factorial(int n) {
     unsigned long long result = 1;
     for (int i = 2; i <= n; i++) {
@@ -62,7 +58,6 @@ unsigned long long factorial(int n) {
     return result;
 }
 
-// Compute dot product (generic implementation for Windows)
 float dot_product(const float* a, const float* b, size_t size) {
     float sum = 0.0f;
     
@@ -73,7 +68,6 @@ float dot_product(const float* a, const float* b, size_t size) {
     return sum;
 }
 
-// Simple matrix operations
 void matrix_multiply(const std::vector<std::vector<double>>& a,
                     const std::vector<std::vector<double>>& b,
                     std::vector<std::vector<double>>& result) {
@@ -92,9 +86,6 @@ void matrix_multiply(const std::vector<std::vector<double>>& a,
 }
 
 int main() {
-    std::cout << "ARM64 Sample Project - Windows Build\n";
-    std::cout << "=====================================\n\n";
-    
     // CWE-117: Simulate user input that could contain log injection
     char username[256];
     std::cout << "Enter username: ";
