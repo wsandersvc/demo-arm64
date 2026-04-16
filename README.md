@@ -7,11 +7,6 @@
 - Linux ARM64 target architecture
 - Make build system
 
-### Windows Build
-- Visual Studio 2022 (or later) with C++ ARM64 support
-- MSBuild
-- Windows 10 SDK
-
 ## Building
 
 To build the project:
@@ -29,25 +24,6 @@ docker run --rm -it -v .:/app -v ~/.veracode/veracode.yml:/root/.veracode/veraco
 
 ```bash
 make docker-build
-```
-
-### Building on Windows
-
-On Windows, open the solution file in Visual Studio:
-
-```powershell
-# Open solution in Visual Studio
-start arm64_sample.sln
-```
-
-Or build from command line using MSBuild:
-
-```powershell
-# Build Debug configuration
-msbuild arm64_sample.sln /p:Configuration=Debug /p:Platform=ARM64
-
-# Build Release configuration
-msbuild arm64_sample.sln /p:Configuration=Release /p:Platform=ARM64
 ```
 
 ## Running
